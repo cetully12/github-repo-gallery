@@ -1,4 +1,3 @@
-// Global
 const overview = document.querySelector(".overview");
 const username = "cetully12";
 const repoList = document.querySelector(".repo-list");
@@ -7,7 +6,6 @@ const repoData = document.querySelector(".repo-data");
 const viewReposButton = document.querySelector(".view-repos");
 const filterInput = document.querySelector(".filter-repos");
 
-// Fetch user info
 const gitUserInfo = async function () {
     const userInfo = await fetch(`https://api.github.com/users/${username}`);
     const data = await userInfo.json();
@@ -16,7 +14,6 @@ const gitUserInfo = async function () {
 
 gitUserInfo();
 
-// Display user info
 const displayUserInfo = function (data) {
     const div = document.createElement("div");
     div.classList.add("user-info");
@@ -35,14 +32,12 @@ const displayUserInfo = function (data) {
     gitRepos();
 };
 
-// Fetch repo data
 const gitRepos = async function () {
     const fetchRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     const repoData = await fetchRepos.json();
     displayRepos(repoData);
 };
 
-// Display repo list
 const displayRepos = function (repos) {
     filterInput.classList.remove("hide");
     for (const repo of repos) {
@@ -53,7 +48,6 @@ const displayRepos = function (repos) {
     }
 };
 
-// Target repo name
 repoList.addEventListener("click", function(e) {
     if (e.target.matches("h3")) {
         const repoName = e.target.innerText;
@@ -66,11 +60,9 @@ const getRepoInfo = async function (repoName) {
     const repoInfo = await fetchRepoInfo.json();
     console.log(repoInfo);
 
-    // Fetch languages
     const fetchLanguages = await fetch(repoInfo.languages_url);
     const languageData = await fetchLanguages.json();
 
-    // Make language list
     const languages = [];
     for (const language in languageData) {
         languages.push(language);
@@ -101,7 +93,6 @@ viewReposButton.addEventListener("click", function () {
     viewReposButton.classList.add("hide");
 });
 
-// Filter to search input
 filterInput.addEventListener("input", function(e) {
     const searchText = e.target.value;
     const repos = document.querySelectorAll(".repo");
